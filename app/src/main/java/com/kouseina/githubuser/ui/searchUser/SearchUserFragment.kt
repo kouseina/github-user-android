@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kouseina.githubuser.data.response.ItemsItem
@@ -20,6 +22,8 @@ import retrofit2.Response
 class SearchUserFragment : Fragment() {
     private var _binding: FragmentSearchUserBinding? = null
     private val binding get() = _binding!!
+
+    private val searchUserViewModel by viewModels<SearchUserViewModel>()
 
     companion object {
         const val TAG = "SearchUserFragment"
@@ -43,6 +47,14 @@ class SearchUserFragment : Fragment() {
         val itemDecoration = DividerItemDecoration(view.context, layoutManager.orientation)
         binding.rvUser.addItemDecoration(itemDecoration)
 
+        searchUserViewModel.isLoading.observe(viewLifecycleOwner) {
+            showLoading(it)
+        }
+
+        searchUserViewModel.userList.observe(viewLifecycleOwner) {
+            setUserListData(it)
+        }
+
         with(binding) {
             searchView.setupWithSearchBar(searchBar)
             searchView
@@ -55,13 +67,11 @@ class SearchUserFragment : Fragment() {
 
                     val q = searchText.ifBlank { "daffa" }
 
-                    fetchSearchUser(q)
+                    searchUserViewModel.fetchSearchUser(q)
 
                     false
                 }
         }
-
-        fetchSearchUser()
     }
 
     override fun onDestroy() {
@@ -73,33 +83,6 @@ class SearchUserFragment : Fragment() {
         val adapter = UserAdapter()
         adapter.submitList(userList)
         binding.rvUser.adapter = adapter
-    }
-
-    private fun fetchSearchUser(q: String = "daffa") {
-        showLoading(true)
-        val client = ApiConfig.getApiService().searchUser(q = q)
-        client.enqueue(object: Callback<SearchUserResponse> {
-            override fun onResponse(
-                call: Call<SearchUserResponse>,
-                response: Response<SearchUserResponse>
-            ) {
-                showLoading(false)
-                if (response.isSuccessful) {
-                    val responseBody = response.body()
-                    if (responseBody?.items != null) {
-                        setUserListData(responseBody?.items)
-                    }
-                } else {
-                    Log.e(TAG, "onFailure: ${response.message()}")
-                }
-            }
-
-            override fun onFailure(call: Call<SearchUserResponse>, t: Throwable) {
-                showLoading(false)
-                Log.e(TAG, "onFailure: ${t.message}")
-            }
-
-        })
     }
 
     private fun showLoading(isLoading: Boolean) {
