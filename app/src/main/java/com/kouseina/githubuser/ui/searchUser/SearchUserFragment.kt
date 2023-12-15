@@ -1,4 +1,4 @@
-package com.kouseina.githubuser.ui.SearchUser
+package com.kouseina.githubuser.ui.searchUser
 
 import android.os.Bundle
 import android.util.Log
@@ -43,6 +43,24 @@ class SearchUserFragment : Fragment() {
         val itemDecoration = DividerItemDecoration(view.context, layoutManager.orientation)
         binding.rvUser.addItemDecoration(itemDecoration)
 
+        with(binding) {
+            searchView.setupWithSearchBar(searchBar)
+            searchView
+                .editText
+                .setOnEditorActionListener { textView, actionId, event ->
+                    searchBar.setText(searchView.text)
+                    searchView.hide()
+
+                    val searchText = searchView.text.toString()
+
+                    val q = searchText.ifBlank { "daffa" }
+
+                    fetchSearchUser(q)
+
+                    false
+                }
+        }
+
         fetchSearchUser()
     }
 
@@ -57,9 +75,9 @@ class SearchUserFragment : Fragment() {
         binding.rvUser.adapter = adapter
     }
 
-    private fun fetchSearchUser() {
+    private fun fetchSearchUser(q: String = "daffa") {
         showLoading(true)
-        val client = ApiConfig.getApiService().searchUser(q = "daffa")
+        val client = ApiConfig.getApiService().searchUser(q = q)
         client.enqueue(object: Callback<SearchUserResponse> {
             override fun onResponse(
                 call: Call<SearchUserResponse>,

@@ -1,4 +1,4 @@
-package com.kouseina.githubuser.ui.DetailUser
+package com.kouseina.githubuser.ui.detailUser
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

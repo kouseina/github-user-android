@@ -1,4 +1,4 @@
-package com.kouseina.githubuser.ui.SearchUser
+package com.kouseina.githubuser.ui.searchUser
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kouseina.githubuser.data.response.ItemsItem
 import com.kouseina.githubuser.databinding.ItemUserBinding
-import kotlinx.coroutines.withContext
 
 class UserAdapter : ListAdapter<ItemsItem, UserAdapter.MyViewHolder>(DIFF_CALLBACK) {
     companion object {
