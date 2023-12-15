@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/searchUserFragment"
-        android:name="com.kouseina.githubuser.SearchUserFragment"
+        android:name="com.kouseina.githubuser.ui.SearchUser.SearchUserFragment"
         android:label="fragment_search_user"
         tools:layout="@layout/fragment_search_user" >
         <action
@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailUserFragment"
-        android:name="com.kouseina.githubuser.DetailUserFragment"
+        android:name="com.kouseina.githubuser.ui.DetailUser.DetailUserFragment"
         android:label="fragment_detail_user"
         tools:layout="@layout/fragment_detail_user" />
 </navigation>
