@@ -2,12 +2,15 @@ package com.kouseina.githubuser.ui.searchUser
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.kouseina.githubuser.R
 import com.kouseina.githubuser.data.response.ItemsItem
 import com.kouseina.githubuser.databinding.ItemUserBinding
+import com.kouseina.githubuser.ui.detailUser.DetailUserFragment
 
 class UserAdapter : ListAdapter<ItemsItem, UserAdapter.MyViewHolder>(DIFF_CALLBACK) {
     companion object {
@@ -29,6 +32,10 @@ class UserAdapter : ListAdapter<ItemsItem, UserAdapter.MyViewHolder>(DIFF_CALLBA
             Glide.with(itemView.context)
                 .load(user.avatarUrl)
                 .into(binding.imageView)
+            binding.linearLayout.setOnClickListener {
+                val toDetailUserFragment = SearchUserFragmentDirections.actionSearchUserFragmentToDetailUserFragment(user.login ?: "")
+                it.findNavController().navigate(toDetailUserFragment)
+            }
         }
     }
 

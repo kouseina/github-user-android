@@ -1,22 +1,15 @@
 package com.kouseina.githubuser.ui.searchUser
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kouseina.githubuser.data.response.ItemsItem
-import com.kouseina.githubuser.data.response.SearchUserResponse
-import com.kouseina.githubuser.data.retrofit.ApiConfig
 import com.kouseina.githubuser.databinding.FragmentSearchUserBinding
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 class SearchUserFragment : Fragment() {
