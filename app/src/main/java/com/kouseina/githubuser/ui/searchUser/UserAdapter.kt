@@ -7,10 +7,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.kouseina.githubuser.R
 import com.kouseina.githubuser.data.response.ItemsItem
 import com.kouseina.githubuser.databinding.ItemUserBinding
-import com.kouseina.githubuser.ui.detailUser.DetailUserFragment
 
 class UserAdapter : ListAdapter<ItemsItem, UserAdapter.MyViewHolder>(DIFF_CALLBACK) {
     companion object {

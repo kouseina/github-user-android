@@ -13,7 +13,7 @@ import retrofit2.Response
 
 class SearchUserViewModel : ViewModel() {
     companion object {
-        const val TAG = "SearchUserFragment"
+//        const val TAG = "SearchUserFragment"
     }
 
     private val _userList = MutableLiveData<List<ItemsItem>>()

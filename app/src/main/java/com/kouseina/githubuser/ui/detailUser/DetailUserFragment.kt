@@ -47,7 +47,7 @@ class DetailUserFragment : Fragment() {
         }
     }
 
-    fun setDetailUserData(detailUserData: DetailUserResponse) {
+    private fun setDetailUserData(detailUserData: DetailUserResponse) {
         Glide.with(requireActivity())
             .load(detailUserData.avatarUrl)
             .into(binding.imageView)
