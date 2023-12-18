@@ -11,16 +11,19 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class DetailUserViewModel : ViewModel() {
-    private val _detaillUser = MutableLiveData<DetailUserResponse>()
-    val detailUser : LiveData<DetailUserResponse> = _detaillUser
+    private val _detailUser = MutableLiveData<DetailUserResponse>()
+    val detailUser : LiveData<DetailUserResponse> = _detailUser
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    fun fetchDetailUser(username: String) {
+
+    val username = MutableLiveData<String>()
+
+    fun fetchDetailUser() {
         _isLoading.value = true
 
-        val client = ApiConfig.getApiService().detailUser(username)
+        val client = ApiConfig.getApiService().getDetailUser(username.value ?: "")
         client.enqueue(object : Callback<DetailUserResponse> {
             override fun onResponse(
                 call: Call<DetailUserResponse>,
@@ -28,7 +31,7 @@ class DetailUserViewModel : ViewModel() {
             ) {
                 _isLoading.value = false
                 if (response.isSuccessful) {
-                    _detaillUser.value = response.body()
+                    _detailUser.value = response.body()
                 } else {
                     Log.e(DetailUserFragment.TAG, "onFailure: ${response.message()}")
                 }

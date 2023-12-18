@@ -1,25 +1,36 @@
 package com.kouseina.githubuser.ui.detailUser
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.StringRes
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
+import com.google.android.material.tabs.TabLayoutMediator
 import com.kouseina.githubuser.R
 import com.kouseina.githubuser.data.response.DetailUserResponse
 import com.kouseina.githubuser.databinding.FragmentDetailUserBinding
+import com.kouseina.githubuser.ui.SectionsPagerAdapter
+import com.kouseina.githubuser.ui.followers.FollowersFragment
+
 
 class DetailUserFragment : Fragment() {
 
     private var _binding: FragmentDetailUserBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel by viewModels<DetailUserViewModel>()
+    private val viewModel by activityViewModels<DetailUserViewModel>()
 
     companion object {
         val TAG = "DetailUserFragment"
+        @StringRes
+        private val TAB_TITLES = intArrayOf(
+            R.string.tab_text_followers,
+            R.string.tab_text_following
+        )
     }
 
     override fun onCreateView(
@@ -34,9 +45,9 @@ class DetailUserFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val username = DetailUserFragmentArgs.fromBundle(arguments as Bundle).username
+        viewModel.username.value = DetailUserFragmentArgs.fromBundle(arguments as Bundle).username
 
-        viewModel.fetchDetailUser(username)
+        viewModel.fetchDetailUser()
 
         viewModel.detailUser.observe(viewLifecycleOwner){
             setDetailUserData(it)
@@ -45,6 +56,12 @@ class DetailUserFragment : Fragment() {
         viewModel.isLoading.observe(viewLifecycleOwner){
             showLoading(it)
         }
+
+        val sectionsPagerAdapter = SectionsPagerAdapter(requireActivity())
+        binding.viewPager.adapter = sectionsPagerAdapter
+        TabLayoutMediator(binding.tabs, binding.viewPager) { tab, position ->
+            tab.text = resources.getString(TAB_TITLES[position])
+        }.attach()
     }
 
     private fun setDetailUserData(detailUserData: DetailUserResponse) {
